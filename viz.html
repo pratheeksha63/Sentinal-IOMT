@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sentinel-IoMT Visualizer</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+body{background:#0a0c10;color:#c9d1d9;display:flex;height:100vh;overflow:hidden}
+#main{flex:1;display:flex;flex-direction:column;position:relative}
+#canvasWrapper{flex:1;position:relative;display:flex;align-items:center;justify-content:center;background:#0d1117}
+canvas#simCanvas{width:100%;height:100%;max-width:1280px;max-height:720px;object-fit:contain}
+#controls{height:52px;background:#161b22;border-top:1px solid #30363d;display:flex;align-items:center;padding:0 20px;gap:15px}
+.btn{background:#21262d;border:1px solid #363b42;color:#c9d1d9;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:600;font-size:13px}
+.btn:hover{background:#30363d}
+.btn.active{background:#238636;border-color:#2ea043;color:#fff}
+.toggle{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600}
+#side{width:360px;background:#161b22;border-left:1px solid #30363d;display:flex;flex-direction:column;padding:16px;gap:14px;overflow-y:auto}
+.card{background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:12px}
+.card h3{font-size:12px;text-transform:uppercase;color:#8b949e;margin-bottom:8px;letter-spacing:0.5px}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stat-box{background:#161b22;padding:8px 10px;border-radius:6px;border:1px solid #21262d}
+.stat-val{font-size:18px;font-weight:700;color:#58a6ff}
+.stat-lbl{font-size:11px;color:#8b949e}
+#alertFeed{max-height:160px;overflow-y:auto;display:flex;flex-direction:column;gap:6px}
+.alert-item{background:#161b22;border-left:3px solid #d29922;padding:6px 8px;border-radius:4px;font-size:11px;display:flex;flex-direction:column;gap:4px}
+.alert-actions{display:flex;gap:6px}
+.alert-btn{padding:2px 8px;font-size:10px;border-radius:4px;border:1px solid #30363d;background:#21262d;color:#c9d1d9;cursor:pointer}
+.alert-btn:hover{background:#30363d}
+.alert-btn:disabled{opacity:0.4;cursor:default}
+#tooltip{position:absolute;background:rgba(22,27,34,0.95);border:1px solid #58a6ff;padding:8px 12px;border-radius:6px;font-size:11px;pointer-events:none;display:none;z-index:99;line-height:1.5}
+.file-inputs{display:flex;flex-direction:column;gap:4px;font-size:11px}
+</style>
+</head>
+<body>
+<div id="main">
+  <div id="canvasWrapper">
+    <canvas id="simCanvas" width="1280" height="720"></canvas>
+    <div id="tooltip"></div>
+  </div>
+  <div id="controls">
+    <button class="btn" id="playBtn">Play</button>
+    <button class="btn" id="stepBtn">Step</button>
+    <button class="btn" id="restartBtn">Restart</button>
+    <div class="toggle">
+      <span>Speed:</span>
+      <input type="range" id="speedSlider" min="0.25" max="4" step="0.25" value="1" style="width:70px">
+      <span id="speedVal">1x</span>
+    </div>
+    <div class="toggle" style="margin-left:auto">
+      <span>Defense (XAI):</span>
+      <button class="btn active" id="defenseToggle">ON</button>
+    </div>
+  </div>
+</div>
+<div id="side">
+  <div class="card">
+    <h3>Sentinel-IoMT Live Run</h3>
+    <div class="stat-grid">
+      <div class="stat-box"><div class="stat-val" id="lblRound">0 / 20</div><div class="stat-lbl">Round</div></div>
+      <div class="stat-box"><div class="stat-val" id="lblGlobalAcc">0.0%</div><div class="stat-lbl">Global Acc</div></div>
+      <div class="stat-box"><div class="stat-val" id="lblAttack" style="color:#f85149">None</div><div class="stat-lbl">Attack Status</div></div>
+      <div class="stat-box"><div class="stat-val" id="lblDefense">XAI Guided</div><div class="stat-lbl">Active Mode</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Global Accuracy Trajectory</h3>
+    <canvas id="chartCanvas" width="320" height="130"></canvas>
+    <div style="display:flex;justify-content:space-between;font-size:10px;margin-top:4px;color:#8b949e">
+      <span style="color:#3fb950">■ Defense ON (XAI)</span>
+      <span style="color:#f85149">■ Defense OFF (FedAvg)</span>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Defense Metrics</h3>
+    <div class="stat-grid">
+      <div class="stat-box"><div class="stat-val" id="cntFlagged">0</div><div class="stat-lbl">Total Flagged</div></div>
+      <div class="stat-box"><div class="stat-val" id="cntTrueDet">0</div><div class="stat-lbl">True Detections</div></div>
+      <div class="stat-box"><div class="stat-val" id="cntFalseFlag">0</div><div class="stat-lbl">False Alarms</div></div>
+      <div class="stat-box"><div class="stat-val" id="cntActiveRounds">0</div><div class="stat-lbl">Attack Rounds</div></div>
+    </div>
+  </div>
+  <div class="card" style="flex:1;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <h3 style="margin:0">Analyst Review Feed</h3>
+      <span style="font-size:11px;color:#8b949e" id="lblTally">0 Appr / 0 Rej</span>
+    </div>
+    <div id="alertFeed"></div>
+  </div>
+  <div class="card file-inputs">
+    <h3>Fallback Data Upload</h3>
+    <label>events_xai: <input type="file" id="fileXai" accept=".json"></label>
+    <label>events_nodef: <input type="file" id="fileNodef" accept=".json"></label>
+  </div>
+</div>
+
+<script>
+const cvs = document.getElementById("simCanvas");
+const ctx = cvs.getContext("2d");
+const chartCvs = document.getElementById("chartCanvas");
+const cctx = chartCvs.getContext("2d");
+const tooltip = document.getElementById("tooltip");
+
+let dataXai = null, dataNodef = null;
+let defenseOn = true, playing = false, speed = 1.0;
+let curRound = 0, phase = 0, phaseProgress = 0.0;
+let approvedCount = 0, rejectedCount = 0;
+let hoveredHospital = null;
+
+const HOSPITALS = [
+  { id: 0, name: "H1 - Mercy General", x: 180, y: 150 },
+  { id: 1, name: "H2 - St. Jude Medical", x: 1100, y: 150 },
+  { id: 2, name: "H3 - City IoMT Health", x: 180, y: 570 },
+  { id: 3, name: "H4 - Apollo Clinic", x: 1100, y: 570 }
+];
+const SERVER = { x: 640, y: 360, name: "Aggregator" };
+const ATTACKER = { x: 1220, y: 670 };
+
+function genDemoData(isDefended) {
+  const rounds = [];
+  for (let r = 0; r < 20; r++) {
+    const atk = r >= 3;
+    const gacc = isDefended ? (r < 3 ? 0.75 + r*0.04 : 0.88 + Math.min(0.08, (r-3)*0.005)) : (r < 3 ? 0.75 + r*0.04 : Math.max(0.35, 0.85 - (r-3)*0.035));
+    const clients = [0,1,2,3].map(i => {
+      const isMal = (i === 3) && atk;
+      const flagged = isDefended && isMal;
+      return {
+        id: i,
+        acc: isMal ? 0.94 : 0.85 + (r*0.005),
+        status: flagged ? "flagged" : (isMal ? "malicious" : "normal"),
+        shap_top3: ["flow_pkts_s", "tot_fwd_pkts", "flow_duration"],
+        anomaly_score: isMal ? 0.78 : 0.08 + Math.random()*0.05,
+        weight: flagged ? 0.0 : (isDefended ? (isMal ? 0.0 : 0.33) : 0.25)
+      };
+    });
+    rounds.push({
+      round: r,
+      clients,
+      global_acc: parseFloat(gacc.toFixed(3)),
+      attack_active: atk,
+      flagged: (isDefended && atk) ? [3] : [],
+      review_alerts: [
+        { client: 1, class: "DoS", entropy: 1.45 },
+        { client: 3, class: "ARP_Spoofing", entropy: 1.72 }
+      ]
+    });
+  }
+  return rounds;
+}
+
+async function loadData() {
+  try {
+    const rx = await fetch("events_xai.json");
+    if (rx.ok) dataXai = await rx.json();
+    const rn = await fetch("events_nodefense.json");
+    if (rn.ok) dataNodef = await rn.json();
+  } catch(e){}
+  if (!dataXai) dataXai = genDemoData(true);
+  if (!dataNodef) dataNodef = genDemoData(false);
+  updateSidePanel();
+  renderChart();
+}
+
+function getCurData() {
+  return defenseOn ? dataXai : dataNodef;
+}
+
+function updateSidePanel() {
+  const d = getCurData();
+  if (!d || !d[curRound]) return;
+  const rData = d[curRound];
+  document.getElementById("lblRound").innerText = `${curRound + 1} / ${d.length}`;
+  document.getElementById("lblGlobalAcc").innerText = `${(rData.global_acc * 100).toFixed(1)}%`;
+  document.getElementById("lblAttack").innerText = rData.attack_active ? "Scaled Update" : "None";
+  document.getElementById("lblAttack").style.color = rData.attack_active ? "#f85149" : "#3fb950";
+  document.getElementById("lblDefense").innerText = defenseOn ? "XAI Guided" : "FedAvg";
+  
+  let flaggedTotal = 0, trueDet = 0, falseFlag = 0, atkRounds = 0;
+  for (let i = 0; i <= curRound; i++) {
+    const rd = d[i];
+    if (rd.attack_active) atkRounds++;
+    const fl = rd.flagged || [];
+    flaggedTotal += fl.length;
+    fl.forEach(id => {
+      if (id === 3) trueDet++;
+      else falseFlag++;
+    });
+  }
+  document.getElementById("cntFlagged").innerText = flaggedTotal;
+  document.getElementById("cntTrueDet").innerText = trueDet;
+  document.getElementById("cntFalseFlag").innerText = falseFlag;
+  document.getElementById("cntActiveRounds").innerText = atkRounds;
+  
+  const feed = document.getElementById("alertFeed");
+  feed.innerHTML = "";
+  if (rData.review_alerts) {
+    rData.review_alerts.forEach((al, idx) => {
+      const item = document.createElement("div");
+      item.className = "alert-item";
+      item.innerHTML = `<div><strong>Uncertain:</strong> ${al.class} @H${al.client + 1} - ent ${al.entropy}</div>
+      <div class="alert-actions">
+        <button class="alert-btn" onclick="handleAlert(this, true)">Approve</button>
+        <button class="alert-btn" onclick="handleAlert(this, false)">Reject</button>
+      </div>`;
+      feed.appendChild(item);
+    });
+  }
+}
+
+window.handleAlert = function(btn, approved) {
+  if (approved) approvedCount++; else rejectedCount++;
+  document.getElementById("lblTally").innerText = `${approvedCount} Appr / ${rejectedCount} Rej`;
+  const parent = btn.parentElement;
+  parent.querySelectorAll("button").forEach(b => b.disabled = true);
+};
+
+function renderChart() {
+  cctx.clearRect(0, 0, 320, 130);
+  cctx.strokeStyle = "#21262d";
+  cctx.lineWidth = 1;
+  cctx.beginPath();
+  for (let y = 20; y <= 110; y += 30) {
+    cctx.moveTo(30, y); cctx.lineTo(310, y);
+  }
+  cctx.stroke();
+
+  function drawLine(dataset, color) {
+    if (!dataset) return;
+    cctx.strokeStyle = color;
+    cctx.lineWidth = 2;
+    cctx.beginPath();
+    const count = Math.min(curRound + 1, dataset.length);
+    for (let i = 0; i < count; i++) {
+      const x = 30 + (i / 19) * 270;
+      const y = 110 - (dataset[i].global_acc * 85);
+      if (i === 0) cctx.moveTo(x, y); else cctx.lineTo(x, y);
+    }
+    cctx.stroke();
+  }
+  drawLine(dataNodef, "#f85149");
+  drawLine(dataXai, "#3fb950");
+  
+  cctx.fillStyle = "#8b949e";
+  cctx.font = "9px sans-serif";
+  cctx.fillText("1.0", 5, 25);
+  cctx.fillText("0.5", 5, 70);
+  cctx.fillText("0.0", 5, 115);
+  cctx.fillText("R1", 30, 125);
+  cctx.fillText("R20", 295, 125);
+}
+
+function drawBuilding(x, y, w, h, title, isHosp, clientInfo, isMalicious, isFlagged) {
+  ctx.save();
+  ctx.fillStyle = isFlagged ? "#301314" : (isMalicious ? "#441a1a" : "#161b22");
+  ctx.strokeStyle = isFlagged ? "#f85149" : (isMalicious ? "#d95f02" : "#30363d");
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.roundRect(x - w/2, y - h/2, w, h, 8);
+  ctx.fill();
+  ctx.stroke();
+
+  if (isHosp) {
+    ctx.fillStyle = isMalicious ? "#f85149" : "#e63946";
+    ctx.fillRect(x - 14, y - 22, 28, 8);
+    ctx.fillRect(x - 4, y - 32, 8, 28);
+    ctx.fillStyle = "#8b949e";
+    ctx.font = "10px sans-serif";
+    ctx.fillText("🔒 Raw data local", x - 42, y + 26);
+
+    if (clientInfo) {
+      ctx.fillStyle = "#21262d";
+      ctx.fillRect(x - 40, y + 32, 80, 5);
+      ctx.fillStyle = "#3fb950";
+      ctx.fillRect(x - 40, y + 32, 80 * clientInfo.acc, 5);
+    }
+  } else {
+    ctx.fillStyle = "#58a6ff";
+    ctx.fillRect(x - 18, y - 24, 36, 10);
+    ctx.fillRect(x - 18, y - 10, 36, 10);
+    ctx.fillRect(x - 18, y + 4, 36, 10);
+  }
+
+  ctx.fillStyle = isFlagged ? "#f85149" : (isMalicious ? "#ff7b72" : "#c9d1d9");
+  ctx.font = "bold 13px sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText(title, x, y + 6);
+
+  if (isMalicious) {
+    ctx.fillStyle = "#f85149";
+    ctx.font = "bold 14px sans-serif";
+    ctx.fillText("💀 POISONED", x, y - h/2 - 8);
+  }
+  ctx.restore();
+}
+
+function drawScene() {
+  ctx.clearRect(0, 0, 1280, 720);
+  const curData = getCurData();
+  if (!curData || !curData[curRound]) return;
+  const rd = curData[curRound];
+
+  if (rd.attack_active) {
+    ctx.save();
+    ctx.strokeStyle = "#f85149";
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6, 6]);
+    ctx.beginPath();
+    ctx.moveTo(ATTACKER.x, ATTACKER.y);
+    ctx.lineTo(HOSPITALS[3].x + 40, HOSPITALS[3].y + 30);
+    ctx.stroke();
+
+    ctx.fillStyle = "#f85149";
+    ctx.beginPath();
+    ctx.arc(ATTACKER.x, ATTACKER.y, 14, 0, Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 10px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("ATK", ATTACKER.x, ATTACKER.y + 4);
+    ctx.restore();
+  }
+
+  ctx.strokeStyle = "#21262d";
+  ctx.lineWidth = 1;
+  ctx.setLineDash([]);
+  HOSPITALS.forEach(h => {
+    ctx.beginPath();
+    ctx.moveTo(SERVER.x, SERVER.y);
+    ctx.lineTo(h.x, h.y);
+    ctx.stroke();
+  });
+
+  const srvFlash = (!defenseOn && rd.attack_active && phase === 2 && phaseProgress > 0.8);
+  drawBuilding(SERVER.x, SERVER.y, 130, 90, SERVER.name, false, null, srvFlash, false);
+
+  HOSPITALS.forEach(h => {
+    const cinfo = rd.clients ? rd.clients[h.id] : null;
+    const isMal = (h.id === 3) && rd.attack_active;
+    const isFlag = defenseOn && (rd.flagged || []).includes(h.id);
+    let pulseScale = 1.0;
+    if (phase === 1) {
+      pulseScale = 1.0 + Math.sin(phaseProgress * Math.PI) * 0.05;
+    }
+    ctx.save();
+    ctx.translate(h.x, h.y);
+    ctx.scale(pulseScale, pulseScale);
+    drawBuilding(0, 0, 140, 80, `H${h.id + 1}`, true, cinfo, isMal, isFlag);
+    ctx.restore();
+
+    if (defenseOn && cinfo && phase >= 2) {
+      const bx = h.x + (h.x > 640 ? -175 : 85);
+      const by = h.y - 30;
+      ctx.fillStyle = "rgba(13,17,23,0.85)";
+      ctx.strokeStyle = "#30363d";
+      ctx.beginPath();
+      ctx.roundRect(bx, by, 95, 60, 4);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "#8b949e";
+      ctx.font = "8px sans-serif";
+      ctx.textAlign = "left";
+      ctx.fillText("SHAP Profile", bx + 6, by + 12);
+
+      const top3 = cinfo.shap_top3 || ["feat_A", "feat_B", "feat_C"];
+      top3.forEach((fn, idx) => {
+        ctx.fillStyle = isMal ? "#f85149" : "#58a6ff";
+        ctx.fillRect(bx + 6, by + 16 + idx * 11, 40 - idx * 8, 7);
+        ctx.fillStyle = "#c9d1d9";
+        ctx.fillText(fn.substring(0, 7), bx + 50, by + 23 + idx * 11);
+      });
+
+      const badgeColor = isFlag ? "#f85149" : "#3fb950";
+      ctx.fillStyle = badgeColor;
+      ctx.font = "bold 9px sans-serif";
+      ctx.fillText(`Score: ${cinfo.anomaly_score.toFixed(2)}`, bx + 6, by + 54);
+    }
+  });
+
+  const ease = t => t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t;
+  const ep = ease(phaseProgress);
+
+  if (phase === 0) {
+    HOSPITALS.forEach(h => {
+      const px = SERVER.x + (h.x - SERVER.x) * ep;
+      const py = SERVER.y + (h.y - SERVER.y) * ep;
+      ctx.fillStyle = "#58a6ff";
+      ctx.shadowColor = "#58a6ff";
+      ctx.shadowBlur = 10;
+      ctx.beginPath();
+      ctx.arc(px, py, 6, 0, Math.PI*2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    });
+  } else if (phase === 2) {
+    HOSPITALS.forEach(h => {
+      const isMal = (h.id === 3) && rd.attack_active;
+      const isFlag = defenseOn && (rd.flagged || []).includes(h.id);
+      let stopDist = (isFlag && ep > 0.75) ? 0.75 : ep;
+      const px = h.x + (SERVER.x - h.x) * stopDist;
+      const py = h.y + (SERVER.y - h.y) * stopDist;
+
+      if (isFlag && ep >= 0.75) {
+        ctx.fillStyle = "#f85149";
+        ctx.font = "bold 16px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("🛡️ ✕ BLOCKED", px, py - 12);
+      } else {
+        ctx.fillStyle = isMal ? "#f85149" : "#3fb950";
+        ctx.shadowColor = isMal ? "#f85149" : "#3fb950";
+        ctx.shadowBlur = isMal ? 14 : 8;
+        ctx.beginPath();
+        ctx.arc(px, py, isMal ? 9 : 6, 0, Math.PI*2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = "#8b949e";
+        ctx.font = "8px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("weights only", px, py + 12);
+      }
+    });
+  }
+}
+
+let lastTime = 0;
+function animLoop(timestamp) {
+  if (!lastTime) lastTime = timestamp;
+  const dt = (timestamp - lastTime) / 1000;
+  lastTime = timestamp;
+
+  if (playing) {
+    phaseProgress += dt * 0.8 * speed;
+    if (phaseProgress >= 1.0) {
+      phaseProgress = 0.0;
+      phase = (phase + 1) % 3;
+      if (phase === 0) {
+        const d = getCurData();
+        if (curRound < d.length - 1) {
+          curRound++;
+          updateSidePanel();
+          renderChart();
+        } else {
+          playing = false;
+          document.getElementById("playBtn").innerText = "Play";
+        }
+      }
+    }
+  }
+  drawScene();
+  requestAnimationFrame(animLoop);
+}
+
+document.getElementById("playBtn").addEventListener("click", () => {
+  playing = !playing;
+  document.getElementById("playBtn").innerText = playing ? "Pause" : "Play";
+});
+document.getElementById("stepBtn").addEventListener("click", () => {
+  playing = false;
+  document.getElementById("playBtn").innerText = "Play";
+  const d = getCurData();
+  curRound = (curRound + 1) % d.length;
+  phase = 0; phaseProgress = 0;
+  updateSidePanel();
+  renderChart();
+});
+document.getElementById("restartBtn").addEventListener("click", () => {
+  curRound = 0; phase = 0; phaseProgress = 0;
+  updateSidePanel();
+  renderChart();
+});
+document.getElementById("speedSlider").addEventListener("input", e => {
+  speed = parseFloat(e.target.value);
+  document.getElementById("speedVal").innerText = `${speed}x`;
+});
+document.getElementById("defenseToggle").addEventListener("click", e => {
+  defenseOn = !defenseOn;
+  e.target.innerText = defenseOn ? "ON" : "OFF";
+  e.target.className = defenseOn ? "btn active" : "btn";
+  updateSidePanel();
+});
+
+window.addEventListener("keydown", e => {
+  if (e.code === "Space") { e.preventDefault(); document.getElementById("playBtn").click(); }
+  else if (e.code === "ArrowRight") { e.preventDefault(); document.getElementById("stepBtn").click(); }
+});
+
+cvs.addEventListener("mousemove", e => {
+  const rect = cvs.getBoundingClientRect();
+  const mx = (e.clientX - rect.left) * (1280 / rect.width);
+  const my = (e.clientY - rect.top) * (720 / rect.height);
+  let hovered = null;
+  HOSPITALS.forEach(h => {
+    if (Math.abs(mx - h.x) < 70 && Math.abs(my - h.y) < 40) hovered = h;
+  });
+  if (hovered) {
+    const d = getCurData();
+    const cinfo = d[curRound]?.clients[hovered.id];
+    if (cinfo) {
+      tooltip.style.display = "block";
+      tooltip.style.left = `${e.clientX + 15}px`;
+      tooltip.style.top = `${e.clientY + 15}px`;
+      tooltip.innerHTML = `<strong>${hovered.name}</strong><br>
+      Accuracy: ${(cinfo.acc * 100).toFixed(1)}%<br>
+      Status: <span style="color:${cinfo.status==='flagged'?'#f85149':'#3fb950'}">${cinfo.status.toUpperCase()}</span><br>
+      Weight: ${cinfo.weight.toFixed(3)}<br>
+      Anomaly Score: ${cinfo.anomaly_score.toFixed(4)}<br>
+      Top SHAP: ${cinfo.shap_top3.join(', ')}`;
+    }
+  } else {
+    tooltip.style.display = "none";
+  }
+});
+
+function handleFile(input, isXai) {
+  input.addEventListener("change", e => {
+    const f = e.target.files[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = ev => {
+      try {
+        const json = JSON.parse(ev.target.result);
+        if (isXai) dataXai = json; else dataNodef = json;
+        updateSidePanel(); renderChart();
+      } catch(err){}
+    };
+    r.readAsText(f);
+  });
+}
+handleFile(document.getElementById("fileXai"), true);
+handleFile(document.getElementById("fileNodef"), false);
+
+loadData();
+requestAnimationFrame(animLoop);
+</script>
+</body>
+</html>

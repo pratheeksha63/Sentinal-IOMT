@@ -1,0 +1,1584 @@
+[
+  {
+    "round": 0,
+    "clients": [
+      {
+        "id": 0,
+        "acc": 0.58,
+        "status": "normal",
+        "shap_top3": [
+          "pkt_len_mean",
+          "flow_iat_mean",
+          "totlen_fwd_pkts"
+        ],
+        "anomaly_score": 0.0371,
+        "weight": 0.136
+      },
+      {
+        "id": 1,
+        "acc": 0.77,
+        "status": "normal",
+        "shap_top3": [
+          "flow_iat_std",
+          "pkt_len_mean",
+          "fwd_pkts_s"
+        ],
+        "anomaly_score": 0.0226,
+        "weight": 0.34
+      },
+      {
+        "id": 2,
+        "acc": 0.715,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkts_s",
+          "bwd_pkts_s",
+          "tot_fwd_pkts"
+        ],
+        "anomaly_score": 0.0258,
+        "weight": 0.224
+      },
+      {
+        "id": 3,
+        "acc": 0.765,
+        "status": "normal",
+        "shap_top3": [
+          "bwd_pkt_len_max",
+          "totlen_fwd_pkts",
+          "fwd_pkts_s"
+        ],
+        "anomaly_score": 0.0328,
+        "weight": 0.3
+      }
+    ],
+    "global_acc": 0.542,
+    "attack_active": false,
+    "flagged": [],
+    "review_alerts": [
+      {
+        "client": 0,
+        "class": "Benign",
+        "entropy": 1.7619999647140503
+      },
+      {
+        "client": 1,
+        "class": "ARP_Spoofing",
+        "entropy": 1.7089999914169312
+      },
+      {
+        "client": 2,
+        "class": "DoS",
+        "entropy": 1.5870000123977661
+      },
+      {
+        "client": 3,
+        "class": "DDoS",
+        "entropy": 1.6670000553131104
+      }
+    ]
+  },
+  {
+    "round": 1,
+    "clients": [
+      {
+        "id": 0,
+        "acc": 0.67,
+        "status": "normal",
+        "shap_top3": [
+          "bwd_pkt_len_max",
+          "fwd_pkt_len_max",
+          "fwd_pkts_s"
+        ],
+        "anomaly_score": 0.0151,
+        "weight": 0.175
+      },
+      {
+        "id": 1,
+        "acc": 0.805,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkt_len_mean",
+          "fwd_pkts_s",
+          "bwd_iat_tot"
+        ],
+        "anomaly_score": 0.0071,
+        "weight": 0.439
+      },
+      {
+        "id": 2,
+        "acc": 0.77,
+        "status": "flagged",
+        "shap_top3": [
+          "bwd_pkts_s",
+          "pkt_len_mean",
+          "totlen_bwd_pkts"
+        ],
+        "anomaly_score": 0.0453,
+        "weight": 0.0
+      },
+      {
+        "id": 3,
+        "acc": 0.785,
+        "status": "normal",
+        "shap_top3": [
+          "bwd_pkt_len_max",
+          "fwd_pkt_len_mean",
+          "flow_duration"
+        ],
+        "anomaly_score": 0.0149,
+        "weight": 0.387
+      }
+    ],
+    "global_acc": 0.583,
+    "attack_active": false,
+    "flagged": [
+      2
+    ],
+    "review_alerts": [
+      {
+        "client": 0,
+        "class": "Benign",
+        "entropy": 1.7120000123977661
+      },
+      {
+        "client": 1,
+        "class": "ARP_Spoofing",
+        "entropy": 1.659999966621399
+      },
+      {
+        "client": 2,
+        "class": "DoS",
+        "entropy": 1.5640000104904175
+      },
+      {
+        "client": 3,
+        "class": "Benign",
+        "entropy": 1.6690000295639038
+      }
+    ]
+  },
+  {
+    "round": 2,
+    "clients": [
+      {
+        "id": 0,
+        "acc": 0.77,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkt_len_max",
+          "pkt_len_mean",
+          "flow_duration"
+        ],
+        "anomaly_score": 0.0109,
+        "weight": 0.175
+      },
+      {
+        "id": 1,
+        "acc": 0.835,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkt_len_mean",
+          "pkt_len_mean",
+          "flow_duration"
+        ],
+        "anomaly_score": 0.0146,
+        "weight": 0.439
+      },
+      {
+        "id": 2,
+        "acc": 0.79,
+        "status": "flagged",
+        "shap_top3": [
+          "pkt_len_mean",
+          "flow_pkts_s",
+          "totlen_bwd_pkts"
+        ],
+        "anomaly_score": 0.026,
+        "weight": 0.0
+      },
+      {
+        "id": 3,
+        "acc": 0.835,
+        "status": "normal",
+        "shap_top3": [
+          "bwd_iat_tot",
+          "flow_pkts_s",
+          "fwd_pkt_len_max"
+        ],
+        "anomaly_score": 0.0107,
+        "weight": 0.387
+      }
+    ],
+    "global_acc": 0.675,
+    "attack_active": false,
+    "flagged": [
+      2
+    ],
+    "review_alerts": [
+      {
+        "client": 0,
+        "class": "DoS",
+        "entropy": 1.6690000295639038
+      },
+      {
+        "client": 1,
+        "class": "ARP_Spoofing",
+        "entropy": 1.590000033378601
+      },
+      {
+        "client": 2,
+        "class": "DDoS",
+        "entropy": 1.5089999437332153
+      },
+      {
+        "client": 3,
+        "class": "DDoS",
+        "entropy": 1.6449999809265137
+      }
+    ]
+  },
+  {
+    "round": 3,
+    "clients": [
+      {
+        "id": 0,
+        "acc": 0.805,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkt_len_max",
+          "fwd_pkt_len_mean",
+          "flow_pkts_s"
+        ],
+        "anomaly_score": 0.0034,
+        "weight": 0.136
+      },
+      {
+        "id": 1,
+        "acc": 0.86,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkt_len_mean",
+          "pkt_len_mean",
+          "flow_pkts_s"
+        ],
+        "anomaly_score": 0.02,
+        "weight": 0.34
+      },
+      {
+        "id": 2,
+        "acc": 0.82,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkt_len_max",
+          "flow_pkts_s",
+          "flow_duration"
+        ],
+        "anomaly_score": 0.0134,
+        "weight": 0.224
+      },
+      {
+        "id": 3,
+        "acc": 0.515,
+        "status": "malicious",
+        "shap_top3": [
+          "flow_pkts_s",
+          "bwd_pkts_s",
+          "tot_fwd_pkts"
+        ],
+        "anomaly_score": 0.0222,
+        "weight": 0.3
+      }
+    ],
+    "global_acc": 0.548,
+    "attack_active": true,
+    "flagged": [],
+    "review_alerts": [
+      {
+        "client": 0,
+        "class": "DDoS",
+        "entropy": 1.6740000247955322
+      },
+      {
+        "client": 1,
+        "class": "ARP_Spoofing",
+        "entropy": 1.5759999752044678
+      },
+      {
+        "client": 2,
+        "class": "DDoS",
+        "entropy": 1.6239999532699585
+      },
+      {
+        "client": 3,
+        "class": "MQTT",
+        "entropy": 0.7919999957084656
+      }
+    ]
+  },
+  {
+    "round": 4,
+    "clients": [
+      {
+        "id": 0,
+        "acc": 0.835,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkt_len_mean",
+          "bwd_iat_tot",
+          "flow_pkts_s"
+        ],
+        "anomaly_score": 0.0035,
+        "weight": 0.136
+      },
+      {
+        "id": 1,
+        "acc": 0.875,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkt_len_mean",
+          "bwd_iat_tot",
+          "flow_pkts_s"
+        ],
+        "anomaly_score": 0.0113,
+        "weight": 0.34
+      },
+      {
+        "id": 2,
+        "acc": 0.86,
+        "status": "normal",
+        "shap_top3": [
+          "flow_pkts_s",
+          "fwd_pkt_len_max",
+          "flow_duration"
+        ],
+        "anomaly_score": 0.0236,
+        "weight": 0.224
+      },
+      {
+        "id": 3,
+        "acc": 0.045,
+        "status": "malicious",
+        "shap_top3": [
+          "fwd_pkt_len_max",
+          "totlen_bwd_pkts",
+          "pkt_len_mean"
+        ],
+        "anomaly_score": 0.0544,
+        "weight": 0.3
+      }
+    ],
+    "global_acc": 0.412,
+    "attack_active": true,
+    "flagged": [],
+    "review_alerts": [
+      {
+        "client": 0,
+        "class": "MQTT",
+        "entropy": 1.4589999914169312
+      },
+      {
+        "client": 1,
+        "class": "ARP_Spoofing",
+        "entropy": 1.3559999465942383
+      },
+      {
+        "client": 2,
+        "class": "DDoS",
+        "entropy": 1.475000023841858
+      },
+      {
+        "client": 3,
+        "class": "DDoS",
+        "entropy": 0.6930000185966492
+      }
+    ]
+  },
+  {
+    "round": 5,
+    "clients": [
+      {
+        "id": 0,
+        "acc": 0.715,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkt_len_max",
+          "pkt_len_mean",
+          "totlen_bwd_pkts"
+        ],
+        "anomaly_score": 0.0079,
+        "weight": 0.136
+      },
+      {
+        "id": 1,
+        "acc": 0.885,
+        "status": "normal",
+        "shap_top3": [
+          "totlen_bwd_pkts",
+          "flow_duration",
+          "fwd_pkt_len_max"
+        ],
+        "anomaly_score": 0.0061,
+        "weight": 0.34
+      },
+      {
+        "id": 2,
+        "acc": 0.635,
+        "status": "normal",
+        "shap_top3": [
+          "totlen_bwd_pkts",
+          "fwd_pkt_len_max",
+          "bwd_pkt_len_mean"
+        ],
+        "anomaly_score": 0.0201,
+        "weight": 0.224
+      },
+      {
+        "id": 3,
+        "acc": 0.145,
+        "status": "malicious",
+        "shap_top3": [
+          "flow_iat_mean",
+          "fwd_pkt_len_mean",
+          "bwd_pkt_len_max"
+        ],
+        "anomaly_score": 0.0409,
+        "weight": 0.3
+      }
+    ],
+    "global_acc": 0.319,
+    "attack_active": true,
+    "flagged": [],
+    "review_alerts": [
+      {
+        "client": 0,
+        "class": "Benign",
+        "entropy": 1.6089999675750732
+      },
+      {
+        "client": 1,
+        "class": "ARP_Spoofing",
+        "entropy": 1.4509999752044678
+      },
+      {
+        "client": 2,
+        "class": "Benign",
+        "entropy": 1.6950000524520874
+      },
+      {
+        "client": 3,
+        "class": "DDoS",
+        "entropy": 0.0010000000474974513
+      }
+    ]
+  },
+  {
+    "round": 6,
+    "clients": [
+      {
+        "id": 0,
+        "acc": 0.635,
+        "status": "normal",
+        "shap_top3": [
+          "flow_iat_mean",
+          "fwd_pkt_len_max",
+          "totlen_bwd_pkts"
+        ],
+        "anomaly_score": 0.0138,
+        "weight": 0.136
+      },
+      {
+        "id": 1,
+        "acc": 0.23,
+        "status": "normal",
+        "shap_top3": [
+          "totlen_bwd_pkts",
+          "tot_fwd_pkts",
+          "bwd_pkt_len_max"
+        ],
+        "anomaly_score": 0.0165,
+        "weight": 0.34
+      },
+      {
+        "id": 2,
+        "acc": 0.475,
+        "status": "normal",
+        "shap_top3": [
+          "totlen_fwd_pkts",
+          "fwd_pkts_s",
+          "totlen_bwd_pkts"
+        ],
+        "anomaly_score": 0.033,
+        "weight": 0.224
+      },
+      {
+        "id": 3,
+        "acc": 0.215,
+        "status": "malicious",
+        "shap_top3": [
+          "fwd_pkt_len_max",
+          "flow_duration",
+          "totlen_bwd_pkts"
+        ],
+        "anomaly_score": 0.0361,
+        "weight": 0.3
+      }
+    ],
+    "global_acc": 0.307,
+    "attack_active": true,
+    "flagged": [],
+    "review_alerts": [
+      {
+        "client": 0,
+        "class": "ARP_Spoofing",
+        "entropy": 1.0980000495910645
+      },
+      {
+        "client": 1,
+        "class": "Recon",
+        "entropy": 1.753999948501587
+      },
+      {
+        "client": 2,
+        "class": "Recon",
+        "entropy": 1.6330000162124634
+      },
+      {
+        "client": 3,
+        "class": "ARP_Spoofing",
+        "entropy": 0.039000000804662704
+      }
+    ]
+  },
+  {
+    "round": 7,
+    "clients": [
+      {
+        "id": 0,
+        "acc": 0.235,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_iat_tot",
+          "fwd_pkt_len_mean",
+          "flow_pkts_s"
+        ],
+        "anomaly_score": 0.022,
+        "weight": 0.194
+      },
+      {
+        "id": 1,
+        "acc": 0.82,
+        "status": "normal",
+        "shap_top3": [
+          "bwd_iat_tot",
+          "totlen_bwd_pkts",
+          "fwd_pkt_len_mean"
+        ],
+        "anomaly_score": 0.0193,
+        "weight": 0.486
+      },
+      {
+        "id": 2,
+        "acc": 0.43,
+        "status": "normal",
+        "shap_top3": [
+          "totlen_bwd_pkts",
+          "fwd_pkt_len_max",
+          "flow_pkts_s"
+        ],
+        "anomaly_score": 0.026,
+        "weight": 0.32
+      },
+      {
+        "id": 3,
+        "acc": 0.185,
+        "status": "flagged",
+        "shap_top3": [
+          "bwd_pkt_len_max",
+          "fwd_pkt_len_mean",
+          "totlen_fwd_pkts"
+        ],
+        "anomaly_score": 0.0615,
+        "weight": 0.0
+      }
+    ],
+    "global_acc": 0.549,
+    "attack_active": true,
+    "flagged": [
+      3
+    ],
+    "review_alerts": [
+      {
+        "client": 0,
+        "class": "Benign",
+        "entropy": 1.590999960899353
+      },
+      {
+        "client": 1,
+        "class": "DDoS",
+        "entropy": 1.4950000047683716
+      },
+      {
+        "client": 2,
+        "class": "Benign",
+        "entropy": 1.7690000534057617
+      },
+      {
+        "client": 3,
+        "class": "ARP_Spoofing",
+        "entropy": 0.6930000185966492
+      }
+    ]
+  },
+  {
+    "round": 8,
+    "clients": [
+      {
+        "id": 0,
+        "acc": 0.565,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkt_len_mean",
+          "bwd_iat_tot",
+          "totlen_fwd_pkts"
+        ],
+        "anomaly_score": 0.0063,
+        "weight": 0.194
+      },
+      {
+        "id": 1,
+        "acc": 0.865,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkt_len_mean",
+          "bwd_iat_tot",
+          "flow_pkts_s"
+        ],
+        "anomaly_score": 0.0115,
+        "weight": 0.486
+      },
+      {
+        "id": 2,
+        "acc": 0.77,
+        "status": "normal",
+        "shap_top3": [
+          "bwd_iat_tot",
+          "fwd_pkt_len_max",
+          "flow_pkts_s"
+        ],
+        "anomaly_score": 0.0073,
+        "weight": 0.32
+      },
+      {
+        "id": 3,
+        "acc": 0.28,
+        "status": "flagged",
+        "shap_top3": [
+          "pkt_len_mean",
+          "fwd_iat_tot",
+          "fwd_pkt_len_mean"
+        ],
+        "anomaly_score": 0.0464,
+        "weight": 0.0
+      }
+    ],
+    "global_acc": 0.693,
+    "attack_active": true,
+    "flagged": [
+      3
+    ],
+    "review_alerts": [
+      {
+        "client": 0,
+        "class": "Benign",
+        "entropy": 1.7610000371932983
+      },
+      {
+        "client": 1,
+        "class": "Benign",
+        "entropy": 1.5989999771118164
+      },
+      {
+        "client": 2,
+        "class": "Benign",
+        "entropy": 1.7410000562667847
+      },
+      {
+        "client": 3,
+        "class": "ARP_Spoofing",
+        "entropy": 0.6930000185966492
+      }
+    ]
+  },
+  {
+    "round": 9,
+    "clients": [
+      {
+        "id": 0,
+        "acc": 0.875,
+        "status": "normal",
+        "shap_top3": [
+          "bwd_iat_tot",
+          "flow_pkts_s",
+          "totlen_bwd_pkts"
+        ],
+        "anomaly_score": 0.0097,
+        "weight": 0.194
+      },
+      {
+        "id": 1,
+        "acc": 0.91,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkt_len_mean",
+          "flow_pkts_s",
+          "bwd_iat_tot"
+        ],
+        "anomaly_score": 0.0171,
+        "weight": 0.486
+      },
+      {
+        "id": 2,
+        "acc": 0.865,
+        "status": "normal",
+        "shap_top3": [
+          "flow_pkts_s",
+          "bwd_iat_tot",
+          "tot_fwd_pkts"
+        ],
+        "anomaly_score": 0.0047,
+        "weight": 0.32
+      },
+      {
+        "id": 3,
+        "acc": 0.28,
+        "status": "flagged",
+        "shap_top3": [
+          "fwd_iat_tot",
+          "fwd_pkts_s",
+          "pkt_len_mean"
+        ],
+        "anomaly_score": 0.0452,
+        "weight": 0.0
+      }
+    ],
+    "global_acc": 0.801,
+    "attack_active": true,
+    "flagged": [
+      3
+    ],
+    "review_alerts": [
+      {
+        "client": 0,
+        "class": "Benign",
+        "entropy": 1.7029999494552612
+      },
+      {
+        "client": 1,
+        "class": "Benign",
+        "entropy": 1.6399999856948853
+      },
+      {
+        "client": 2,
+        "class": "Benign",
+        "entropy": 1.684000015258789
+      },
+      {
+        "client": 3,
+        "class": "ARP_Spoofing",
+        "entropy": 0.6930000185966492
+      }
+    ]
+  },
+  {
+    "round": 10,
+    "clients": [
+      {
+        "id": 0,
+        "acc": 0.905,
+        "status": "normal",
+        "shap_top3": [
+          "flow_pkts_s",
+          "fwd_pkt_len_mean",
+          "fwd_pkt_len_max"
+        ],
+        "anomaly_score": 0.0155,
+        "weight": 0.194
+      },
+      {
+        "id": 1,
+        "acc": 0.915,
+        "status": "normal",
+        "shap_top3": [
+          "bwd_iat_tot",
+          "totlen_bwd_pkts",
+          "fwd_pkt_len_max"
+        ],
+        "anomaly_score": 0.0083,
+        "weight": 0.486
+      },
+      {
+        "id": 2,
+        "acc": 0.9,
+        "status": "normal",
+        "shap_top3": [
+          "flow_pkts_s",
+          "flow_duration",
+          "fwd_pkt_len_max"
+        ],
+        "anomaly_score": 0.0113,
+        "weight": 0.32
+      },
+      {
+        "id": 3,
+        "acc": 0.465,
+        "status": "flagged",
+        "shap_top3": [
+          "flow_iat_std",
+          "totlen_fwd_pkts",
+          "bwd_pkt_len_max"
+        ],
+        "anomaly_score": 0.0346,
+        "weight": 0.0
+      }
+    ],
+    "global_acc": 0.846,
+    "attack_active": true,
+    "flagged": [
+      3
+    ],
+    "review_alerts": [
+      {
+        "client": 0,
+        "class": "Benign",
+        "entropy": 1.6380000114440918
+      },
+      {
+        "client": 1,
+        "class": "Benign",
+        "entropy": 1.61899995803833
+      },
+      {
+        "client": 2,
+        "class": "DDoS",
+        "entropy": 1.6740000247955322
+      },
+      {
+        "client": 3,
+        "class": "ARP_Spoofing",
+        "entropy": 0.6930000185966492
+      }
+    ]
+  },
+  {
+    "round": 11,
+    "clients": [
+      {
+        "id": 0,
+        "acc": 0.92,
+        "status": "normal",
+        "shap_top3": [
+          "flow_pkts_s",
+          "fwd_iat_tot",
+          "bwd_iat_tot"
+        ],
+        "anomaly_score": 0.0144,
+        "weight": 0.194
+      },
+      {
+        "id": 1,
+        "acc": 0.93,
+        "status": "normal",
+        "shap_top3": [
+          "flow_pkts_s",
+          "bwd_iat_tot",
+          "pkt_len_mean"
+        ],
+        "anomaly_score": 0.0076,
+        "weight": 0.486
+      },
+      {
+        "id": 2,
+        "acc": 0.91,
+        "status": "normal",
+        "shap_top3": [
+          "flow_pkts_s",
+          "fwd_pkt_len_max",
+          "flow_duration"
+        ],
+        "anomaly_score": 0.0083,
+        "weight": 0.32
+      },
+      {
+        "id": 3,
+        "acc": 0.62,
+        "status": "flagged",
+        "shap_top3": [
+          "flow_duration",
+          "tot_fwd_pkts",
+          "bwd_pkts_s"
+        ],
+        "anomaly_score": 0.0294,
+        "weight": 0.0
+      }
+    ],
+    "global_acc": 0.863,
+    "attack_active": true,
+    "flagged": [
+      3
+    ],
+    "review_alerts": [
+      {
+        "client": 0,
+        "class": "Benign",
+        "entropy": 1.5770000219345093
+      },
+      {
+        "client": 1,
+        "class": "ARP_Spoofing",
+        "entropy": 1.5980000495910645
+      },
+      {
+        "client": 2,
+        "class": "DDoS",
+        "entropy": 1.7029999494552612
+      },
+      {
+        "client": 3,
+        "class": "Recon",
+        "entropy": 0.7929999828338623
+      }
+    ]
+  },
+  {
+    "round": 12,
+    "clients": [
+      {
+        "id": 0,
+        "acc": 0.925,
+        "status": "normal",
+        "shap_top3": [
+          "flow_pkts_s",
+          "fwd_pkt_len_max",
+          "flow_duration"
+        ],
+        "anomaly_score": 0.0051,
+        "weight": 0.194
+      },
+      {
+        "id": 1,
+        "acc": 0.945,
+        "status": "normal",
+        "shap_top3": [
+          "flow_pkts_s",
+          "totlen_fwd_pkts",
+          "pkt_len_mean"
+        ],
+        "anomaly_score": 0.0138,
+        "weight": 0.486
+      },
+      {
+        "id": 2,
+        "acc": 0.92,
+        "status": "normal",
+        "shap_top3": [
+          "bwd_iat_tot",
+          "flow_pkts_s",
+          "pkt_len_mean"
+        ],
+        "anomaly_score": 0.0096,
+        "weight": 0.32
+      },
+      {
+        "id": 3,
+        "acc": 0.495,
+        "status": "flagged",
+        "shap_top3": [
+          "fwd_iat_tot",
+          "pkt_len_mean",
+          "flow_duration"
+        ],
+        "anomaly_score": 0.0411,
+        "weight": 0.0
+      }
+    ],
+    "global_acc": 0.88,
+    "attack_active": true,
+    "flagged": [
+      3
+    ],
+    "review_alerts": [
+      {
+        "client": 0,
+        "class": "DoS",
+        "entropy": 1.5099999904632568
+      },
+      {
+        "client": 1,
+        "class": "Benign",
+        "entropy": 1.5130000114440918
+      },
+      {
+        "client": 2,
+        "class": "DDoS",
+        "entropy": 1.6950000524520874
+      },
+      {
+        "client": 3,
+        "class": "DDoS",
+        "entropy": 0.7229999899864197
+      }
+    ]
+  },
+  {
+    "round": 13,
+    "clients": [
+      {
+        "id": 0,
+        "acc": 0.935,
+        "status": "normal",
+        "shap_top3": [
+          "flow_pkts_s",
+          "totlen_fwd_pkts",
+          "pkt_len_mean"
+        ],
+        "anomaly_score": 0.0101,
+        "weight": 0.194
+      },
+      {
+        "id": 1,
+        "acc": 0.945,
+        "status": "normal",
+        "shap_top3": [
+          "bwd_pkt_len_max",
+          "totlen_bwd_pkts",
+          "flow_pkts_s"
+        ],
+        "anomaly_score": 0.0167,
+        "weight": 0.486
+      },
+      {
+        "id": 2,
+        "acc": 0.93,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkts_s",
+          "totlen_fwd_pkts",
+          "flow_pkts_s"
+        ],
+        "anomaly_score": 0.0213,
+        "weight": 0.32
+      },
+      {
+        "id": 3,
+        "acc": 0.465,
+        "status": "flagged",
+        "shap_top3": [
+          "bwd_pkt_len_max",
+          "pkt_len_mean",
+          "bwd_pkts_s"
+        ],
+        "anomaly_score": 0.0591,
+        "weight": 0.0
+      }
+    ],
+    "global_acc": 0.891,
+    "attack_active": true,
+    "flagged": [
+      3
+    ],
+    "review_alerts": [
+      {
+        "client": 0,
+        "class": "DoS",
+        "entropy": 1.4709999561309814
+      },
+      {
+        "client": 1,
+        "class": "Benign",
+        "entropy": 1.5130000114440918
+      },
+      {
+        "client": 2,
+        "class": "DDoS",
+        "entropy": 1.7059999704360962
+      },
+      {
+        "client": 3,
+        "class": "DDoS",
+        "entropy": 0.7210000157356262
+      }
+    ]
+  },
+  {
+    "round": 14,
+    "clients": [
+      {
+        "id": 0,
+        "acc": 0.945,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkt_len_max",
+          "pkt_len_mean",
+          "fwd_pkt_len_mean"
+        ],
+        "anomaly_score": 0.0085,
+        "weight": 0.136
+      },
+      {
+        "id": 1,
+        "acc": 0.95,
+        "status": "normal",
+        "shap_top3": [
+          "totlen_fwd_pkts",
+          "flow_pkts_s",
+          "fwd_pkt_len_mean"
+        ],
+        "anomaly_score": 0.0107,
+        "weight": 0.34
+      },
+      {
+        "id": 2,
+        "acc": 0.94,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkts_s",
+          "flow_duration",
+          "pkt_len_mean"
+        ],
+        "anomaly_score": 0.0199,
+        "weight": 0.224
+      },
+      {
+        "id": 3,
+        "acc": 0.515,
+        "status": "malicious",
+        "shap_top3": [
+          "pkt_len_mean",
+          "fwd_pkt_len_max",
+          "totlen_fwd_pkts"
+        ],
+        "anomaly_score": 0.0242,
+        "weight": 0.3
+      }
+    ],
+    "global_acc": 0.668,
+    "attack_active": true,
+    "flagged": [],
+    "review_alerts": [
+      {
+        "client": 0,
+        "class": "Benign",
+        "entropy": 1.4359999895095825
+      },
+      {
+        "client": 1,
+        "class": "Benign",
+        "entropy": 1.4730000495910645
+      },
+      {
+        "client": 2,
+        "class": "DDoS",
+        "entropy": 1.7009999752044678
+      },
+      {
+        "client": 3,
+        "class": "DDoS",
+        "entropy": 0.7149999737739563
+      }
+    ]
+  },
+  {
+    "round": 15,
+    "clients": [
+      {
+        "id": 0,
+        "acc": 0.94,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkt_len_max",
+          "flow_pkts_s",
+          "bwd_iat_tot"
+        ],
+        "anomaly_score": 0.0068,
+        "weight": 0.194
+      },
+      {
+        "id": 1,
+        "acc": 0.94,
+        "status": "normal",
+        "shap_top3": [
+          "flow_pkts_s",
+          "totlen_fwd_pkts",
+          "tot_fwd_pkts"
+        ],
+        "anomaly_score": 0.01,
+        "weight": 0.486
+      },
+      {
+        "id": 2,
+        "acc": 0.93,
+        "status": "normal",
+        "shap_top3": [
+          "totlen_fwd_pkts",
+          "fwd_pkts_s",
+          "tot_fwd_pkts"
+        ],
+        "anomaly_score": 0.0117,
+        "weight": 0.32
+      },
+      {
+        "id": 3,
+        "acc": 0.025,
+        "status": "flagged",
+        "shap_top3": [
+          "fwd_pkt_len_max",
+          "bwd_iat_tot",
+          "totlen_fwd_pkts"
+        ],
+        "anomaly_score": 0.0306,
+        "weight": 0.0
+      }
+    ],
+    "global_acc": 0.921,
+    "attack_active": true,
+    "flagged": [
+      3
+    ],
+    "review_alerts": [
+      {
+        "client": 0,
+        "class": "MQTT",
+        "entropy": 1.3630000352859497
+      },
+      {
+        "client": 1,
+        "class": "Recon",
+        "entropy": 1.4040000438690186
+      },
+      {
+        "client": 2,
+        "class": "Benign",
+        "entropy": 1.503000020980835
+      },
+      {
+        "client": 3,
+        "class": "ARP_Spoofing",
+        "entropy": 0.0
+      }
+    ]
+  },
+  {
+    "round": 16,
+    "clients": [
+      {
+        "id": 0,
+        "acc": 0.965,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkt_len_max",
+          "totlen_fwd_pkts",
+          "pkt_len_mean"
+        ],
+        "anomaly_score": 0.0039,
+        "weight": 0.136
+      },
+      {
+        "id": 1,
+        "acc": 0.96,
+        "status": "normal",
+        "shap_top3": [
+          "totlen_fwd_pkts",
+          "tot_fwd_pkts",
+          "totlen_bwd_pkts"
+        ],
+        "anomaly_score": 0.0096,
+        "weight": 0.34
+      },
+      {
+        "id": 2,
+        "acc": 0.955,
+        "status": "normal",
+        "shap_top3": [
+          "pkt_len_mean",
+          "flow_iat_mean",
+          "tot_fwd_pkts"
+        ],
+        "anomaly_score": 0.0184,
+        "weight": 0.224
+      },
+      {
+        "id": 3,
+        "acc": 0.68,
+        "status": "malicious",
+        "shap_top3": [
+          "flow_pkts_s",
+          "pkt_len_mean",
+          "totlen_fwd_pkts"
+        ],
+        "anomaly_score": 0.0229,
+        "weight": 0.3
+      }
+    ],
+    "global_acc": 0.822,
+    "attack_active": true,
+    "flagged": [],
+    "review_alerts": [
+      {
+        "client": 0,
+        "class": "MQTT",
+        "entropy": 1.2519999742507935
+      },
+      {
+        "client": 1,
+        "class": "MQTT",
+        "entropy": 1.1740000247955322
+      },
+      {
+        "client": 2,
+        "class": "DDoS",
+        "entropy": 1.6399999856948853
+      },
+      {
+        "client": 3,
+        "class": "Benign",
+        "entropy": 0.8690000176429749
+      }
+    ]
+  },
+  {
+    "round": 17,
+    "clients": [
+      {
+        "id": 0,
+        "acc": 0.965,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkt_len_max",
+          "totlen_bwd_pkts",
+          "pkt_len_mean"
+        ],
+        "anomaly_score": 0.0186,
+        "weight": 0.136
+      },
+      {
+        "id": 1,
+        "acc": 0.955,
+        "status": "normal",
+        "shap_top3": [
+          "pkt_len_mean",
+          "fwd_pkt_len_mean",
+          "totlen_fwd_pkts"
+        ],
+        "anomaly_score": 0.0073,
+        "weight": 0.34
+      },
+      {
+        "id": 2,
+        "acc": 0.94,
+        "status": "normal",
+        "shap_top3": [
+          "pkt_len_mean",
+          "totlen_bwd_pkts",
+          "bwd_pkt_len_max"
+        ],
+        "anomaly_score": 0.0073,
+        "weight": 0.224
+      },
+      {
+        "id": 3,
+        "acc": 0.235,
+        "status": "malicious",
+        "shap_top3": [
+          "pkt_len_mean",
+          "flow_iat_mean",
+          "totlen_fwd_pkts"
+        ],
+        "anomaly_score": 0.0273,
+        "weight": 0.3
+      }
+    ],
+    "global_acc": 0.624,
+    "attack_active": true,
+    "flagged": [],
+    "review_alerts": [
+      {
+        "client": 0,
+        "class": "DoS",
+        "entropy": 1.2389999628067017
+      },
+      {
+        "client": 1,
+        "class": "ARP_Spoofing",
+        "entropy": 1.5149999856948853
+      },
+      {
+        "client": 2,
+        "class": "DDoS",
+        "entropy": 1.4270000457763672
+      },
+      {
+        "client": 3,
+        "class": "ARP_Spoofing",
+        "entropy": 1.3930000066757202
+      }
+    ]
+  },
+  {
+    "round": 18,
+    "clients": [
+      {
+        "id": 0,
+        "acc": 0.86,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkts_s",
+          "fwd_pkt_len_max",
+          "pkt_len_mean"
+        ],
+        "anomaly_score": 0.0056,
+        "weight": 0.194
+      },
+      {
+        "id": 1,
+        "acc": 0.935,
+        "status": "normal",
+        "shap_top3": [
+          "tot_fwd_pkts",
+          "totlen_fwd_pkts",
+          "flow_pkts_s"
+        ],
+        "anomaly_score": 0.0157,
+        "weight": 0.486
+      },
+      {
+        "id": 2,
+        "acc": 0.9,
+        "status": "normal",
+        "shap_top3": [
+          "tot_fwd_pkts",
+          "pkt_len_mean",
+          "flow_duration"
+        ],
+        "anomaly_score": 0.0118,
+        "weight": 0.32
+      },
+      {
+        "id": 3,
+        "acc": 0.255,
+        "status": "flagged",
+        "shap_top3": [
+          "fwd_pkt_len_max",
+          "totlen_fwd_pkts",
+          "flow_pkts_s"
+        ],
+        "anomaly_score": 0.0422,
+        "weight": 0.0
+      }
+    ],
+    "global_acc": 0.849,
+    "attack_active": true,
+    "flagged": [
+      3
+    ],
+    "review_alerts": [
+      {
+        "client": 0,
+        "class": "DoS",
+        "entropy": 1.340000033378601
+      },
+      {
+        "client": 1,
+        "class": "MQTT",
+        "entropy": 1.3420000076293945
+      },
+      {
+        "client": 2,
+        "class": "DDoS",
+        "entropy": 1.2790000438690186
+      },
+      {
+        "client": 3,
+        "class": "DDoS",
+        "entropy": 0.6930000185966492
+      }
+    ]
+  },
+  {
+    "round": 19,
+    "clients": [
+      {
+        "id": 0,
+        "acc": 0.97,
+        "status": "normal",
+        "shap_top3": [
+          "fwd_pkt_len_max",
+          "flow_pkts_s",
+          "bwd_iat_tot"
+        ],
+        "anomaly_score": 0.0045,
+        "weight": 0.136
+      },
+      {
+        "id": 1,
+        "acc": 0.965,
+        "status": "normal",
+        "shap_top3": [
+          "totlen_bwd_pkts",
+          "totlen_fwd_pkts",
+          "flow_pkts_s"
+        ],
+        "anomaly_score": 0.0088,
+        "weight": 0.34
+      },
+      {
+        "id": 2,
+        "acc": 0.955,
+        "status": "normal",
+        "shap_top3": [
+          "totlen_fwd_pkts",
+          "fwd_pkt_len_max",
+          "flow_duration"
+        ],
+        "anomaly_score": 0.0112,
+        "weight": 0.224
+      },
+      {
+        "id": 3,
+        "acc": 0.51,
+        "status": "malicious",
+        "shap_top3": [
+          "pkt_len_mean",
+          "totlen_fwd_pkts",
+          "flow_iat_mean"
+        ],
+        "anomaly_score": 0.0186,
+        "weight": 0.3
+      }
+    ],
+    "global_acc": 0.589,
+    "attack_active": true,
+    "flagged": [],
+    "review_alerts": [
+      {
+        "client": 0,
+        "class": "MQTT",
+        "entropy": 1.281000018119812
+      },
+      {
+        "client": 1,
+        "class": "ARP_Spoofing",
+        "entropy": 1.3559999465942383
+      },
+      {
+        "client": 2,
+        "class": "Benign",
+        "entropy": 1.3739999532699585
+      },
+      {
+        "client": 3,
+        "class": "DDoS",
+        "entropy": 0.949999988079071
+      }
+    ]
+  }
+]
